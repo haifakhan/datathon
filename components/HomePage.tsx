@@ -58,30 +58,46 @@ const HomePage: React.FC<HomePageProps> = ({ setUserType, insecurityStats }) => 
         </button>
       </div>
 
-      {/* Mission + Stats Section */}
-      <div className="w-full max-w-5xl text-center">
-        <h2 className="text-3xl font-bold text-slate-800 mb-8 border-b-2 border-emerald-100 pb-2">Why This Matters</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Stat 1: Food Insecurity */}
-          <div className="p-6 bg-emerald-50 rounded-xl">
-            <p className="text-5xl font-extrabold text-emerald-600">{canadaStat.percent}%</p>
-            <p className="text-lg font-semibold text-slate-700 mt-2">of Canadians live in Food Insecure Households.</p>
-            <p className="text-sm text-slate-500 mt-1">Our platform targets the regions most affected.</p>
-          </div>
-          {/* Stat 2: Waste */}
-          <div className="p-6 bg-emerald-50 rounded-xl">
-            <p className="text-5xl font-extrabold text-slate-800">58%</p>
-            <p className="text-lg font-semibold text-slate-700 mt-2">of food produced is lost or wasted annually.</p>
-            <p className="text-sm text-slate-500 mt-1">We redirect valuable surplus from vendors.</p>
-          </div>
-          {/* Stat 3: Impact */}
-          <div className="p-6 bg-emerald-50 rounded-xl">
-            <p className="text-5xl font-extrabold text-amber-600">{TOTAL_DONATIONS}+</p>
-            <p className="text-lg font-semibold text-slate-700 mt-2">Donations made and claimed in our area.</p>
-            <p className="text-sm text-slate-500 mt-1">Every post is a meal saved and served.</p>
-          </div>
-        </div>
-      </div>
+{/* Mission + Stats Section */}
+<div className="w-full max-w-5xl text-center">
+  <h2 className="text-3xl font-bold text-slate-800 mb-8 border-b-2 border-emerald-100 pb-2">Why This Matters</h2>
+  <div className="grid md:grid-cols-3 gap-8">
+
+    {/* Stat 1: Food Insecurity in Ontario */}
+    <div className="p-6 bg-emerald-50 rounded-xl">
+      <p className="text-5xl font-extrabold text-emerald-600">16%</p>
+      <p className="text-lg font-semibold text-slate-700 mt-2">
+        of Ontario households are food insecure.
+      </p>
+      <p className="text-sm text-slate-500 mt-1">
+        That’s over 2.3 million people — including 1 in 5 children.
+      </p>
+    </div>
+
+    {/* Stat 2: Food Waste in Canada */}
+    <div className="p-6 bg-emerald-50 rounded-xl">
+      <p className="text-5xl font-extrabold text-slate-800">46%</p>
+      <p className="text-lg font-semibold text-slate-700 mt-2">
+        of all food in Canada is wasted each year.
+      </p>
+      <p className="text-sm text-slate-500 mt-1">
+        Over half of this wasted food is edible and could be rescued.
+      </p>
+    </div>
+
+    {/* Stat 3: Food Bank Demand */}
+    <div className="p-6 bg-emerald-50 rounded-xl">
+      <p className="text-5xl font-extrabold text-amber-600">2.2M</p>
+      <p className="text-lg font-semibold text-slate-700 mt-2">
+        food bank visits in March 2025 alone.
+      </p>
+      <p className="text-sm text-slate-500 mt-1">
+        Demand is rising faster than food banks can meet it.
+      </p>
+    </div>
+
+  </div>
+</div>
 
       {/* Simple Footer */}
       <footer className="w-full max-w-5xl mt-16 pt-8 border-t border-slate-100 text-center text-sm text-slate-400">
