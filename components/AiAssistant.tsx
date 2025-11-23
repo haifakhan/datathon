@@ -8,7 +8,11 @@ interface Message {
   text: string;
 }
 
-const AiAssistant: React.FC = () => {
+interface AiAssistantProps {
+  embedded?: boolean; // when true, omit outer panel chrome so parent can style the shell
+}
+
+const AiAssistant: React.FC<AiAssistantProps> = ({ embedded = false }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', sender: 'ai', text: 'Hello! I am your ZeroHunger assistant. Ask me about food insecurity trends, how to donate, or where to find nearby shelters.' }
@@ -38,17 +42,23 @@ const AiAssistant: React.FC = () => {
     setLoading(false);
   };
 
+  const shellClasses = embedded
+    ? 'h-full flex flex-col'
+    : 'glass-panel rounded-2xl p-6 shadow-sm border border-slate-200 h-full flex flex-col';
+
   return (
-    <div className="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200 h-full flex flex-col">
-      <div className="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-        <div className="bg-emerald-100 p-2 rounded-lg">
-          <Bot className="w-6 h-6 text-emerald-600" />
+    <div className={shellClasses}>
+      {!embedded && (
+        <div className="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+          <div className="bg-emerald-100 p-2 rounded-lg">
+            <Bot className="w-6 h-6 text-emerald-600" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900">AI Assistant</h2>
+            <p className="text-xs text-slate-500">Powered by Gemini</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">AI Assistant</h2>
-          <p className="text-xs text-slate-500">Powered by Gemini</p>
-        </div>
-      </div>
+      )}
 
       <div className="flex-1 overflow-y-auto space-y-4 pr-2 mb-4">
         {messages.map((msg) => (

@@ -1,17 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { SAMPLE_FOOD_BANKS, INSECURITY_STATS, SAMPLE_POSTS } from './constants';
 import { DonationPost, UserType } from './types';
 import MapController from './components/MapController';
 import Feed from './components/Feed';
 import VendorPanel from './components/VendorPanel';
 import AiAssistant from './components/AiAssistant';
-import { Bot, Map as MapIcon, Radio, Users } from 'lucide-react';
+import { Bot, Map as MapIcon, Radio, Users, X } from 'lucide-react';
 
 const App: React.FC = () => {
   const [userType, setUserType] = useState<UserType>(UserType.CHARITY);
   const [posts, setPosts] = useState<DonationPost[]>(SAMPLE_POSTS);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationStatus, setLocationStatus] = useState('Detecting location...');
+  const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
     if (!('geolocation' in navigator)) {
@@ -53,7 +55,7 @@ const App: React.FC = () => {
   const availableCount = posts.filter((p) => p.status === 'available').length;
   const claimedCount = posts.filter((p) => p.status === 'claimed').length;
 
-  return (
+  const mainContent = (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-slate-100 text-slate-900">
       <main className="max-w-7xl mx-auto p-6 space-y-6">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -133,10 +135,7 @@ const App: React.FC = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <Feed posts={sortedPosts} onClaim={claimPost} userType={userType} />
-              <AiAssistant />
-            </div>
+            <Feed posts={sortedPosts} onClaim={claimPost} userType={userType} />
           </div>
 
           <div className="space-y-4">
@@ -182,6 +181,79 @@ const App: React.FC = () => {
         </section>
       </main>
     </div>
+  );
+
+  const portalTarget = typeof document !== 'undefined' ? document.body : null;
+
+  const chatWidget =
+    portalTarget &&
+    createPortal(
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '16px',
+          right: '16px',
+          zIndex: 9999,
+          width: 'min(420px, calc(100vw - 32px))',
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{ position: 'relative', width: '100%', pointerEvents: 'auto' }}>
+          {chatOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '72px',
+                right: 0,
+                width: '100%',
+                height: '520px',
+              }}
+            >
+              <div className="glass-panel rounded-2xl border border-slate-200 shadow-2xl h-full flex flex-col">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+                  <div className="flex items-center space-x-2">
+                    <span className="p-2 rounded-lg bg-emerald-100 text-emerald-700">
+                      <Bot className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">AI Assistant</p>
+                      <p className="text-[11px] text-slate-500">Ask about routing or packaging</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setChatOpen(false)}
+                    className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
+                    aria-label="Close chat"
+                    type="button"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="flex-1 p-4">
+                  <AiAssistant embedded />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setChatOpen((prev) => !prev)}
+            className="absolute bottom-0 right-0 w-14 h-14 rounded-full bg-emerald-500 text-white shadow-xl shadow-emerald-200 flex items-center justify-center hover:bg-emerald-600 transition-colors border border-emerald-100"
+            aria-label={chatOpen ? 'Hide AI assistant' : 'Open AI assistant'}
+          >
+            <Bot className="w-6 h-6" />
+          </button>
+        </div>
+      </div>,
+      portalTarget
+    );
+
+  return (
+    <>
+      {mainContent}
+      {chatWidget}
+    </>
   );
 };
 
