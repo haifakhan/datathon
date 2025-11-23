@@ -1,4 +1,3 @@
-// App.tsx (Modified)
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -8,9 +7,9 @@ import MapController from './components/MapController';
 import Feed from './components/Feed';
 import VendorPanel from './components/VendorPanel';
 import AiAssistant from './components/AiAssistant';
-import HomePage from './components/HomePage'; // <--- NEW IMPORT
-import CharityPanel from './components/CharityPanel'; // <--- NEW IMPORT
-import { RectangleEllipsis, Map as MapIcon, Radio, Users, X, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
+import HomePage from './components/HomePage'; 
+import CharityPanel from './components/CharityPanel'; 
+import { RectangleEllipsis, Map as MapIcon, Radio, Users, X, ArrowLeft } from 'lucide-react';
 
 const App: React.FC = () => {
   // Use null to indicate the initial selection page
@@ -145,7 +144,7 @@ const [restaurantLocation, setRestaurantLocation] = useState<{
                 insecurityData={INSECURITY_STATS}
                 posts={sortedPosts}
                 userLocation={userLocation}
-                restaurantLocation={restaurantLocation} // ADD THIS
+                restaurantLocation={restaurantLocation} 
               />
             </div>
 
@@ -158,7 +157,7 @@ const [restaurantLocation, setRestaurantLocation] = useState<{
             {userType === UserType.VENDOR ? (
               <VendorPanel foodBanks={FOOD_BANKS} addPost={addPost} userLocation={userLocation} onRestaurantLocationChange={setRestaurantLocation} />
             ) : (
-              <CharityPanel topInsecurity={topInsecurity} /> // <--- USING NEW COMPONENT
+              <CharityPanel topInsecurity={topInsecurity} /> 
             )}
           </div>
         </section>
@@ -168,7 +167,7 @@ const [restaurantLocation, setRestaurantLocation] = useState<{
 
   const portalTarget = typeof document !== 'undefined' ? document.body : null;
 
-  // ... (rest of the chatWidget code remains the same)
+ 
   const chatWidget =
     portalTarget &&
     createPortal(

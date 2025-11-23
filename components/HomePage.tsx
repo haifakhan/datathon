@@ -9,12 +9,12 @@ interface HomePageProps {
   insecurityStats: InsecurityData[];
 }
 
-// Calculate total available donations from the sample posts for a compelling stat
-const TOTAL_DONATIONS = 74; // Static placeholder for the hackathon (would come from a calculation in App.tsx)
+// Calculate total available donations
+const TOTAL_DONATIONS = 74; 
 
 const HomePage: React.FC<HomePageProps> = ({ setUserType, insecurityStats }) => {
   
-  // Find the stat for Canada-wide food insecurity (if available, otherwise use a default)
+  // Find the stat for Canada-wide food insecurity 
   const canadaStat = insecurityStats.find(s => s.region === 'Canada') || { percent: 14.6 };
 
   return (

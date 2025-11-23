@@ -1,4 +1,3 @@
-// MapController.tsx - Updated version
 
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
@@ -118,7 +117,7 @@ const MapController: React.FC<MapControllerProps> = ({
           </Marker>
         )}
 
-        {/* REMOVED: User Location Marker */}
+        {}
 
         {/* Food Banks Markers */}
         {showFoodBanks && foodBanks.map((bank) => (

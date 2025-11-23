@@ -10,10 +10,9 @@ interface CharityPanelProps {
 
 const CharityPanel: React.FC<CharityPanelProps> = ({ topInsecurity }) => {
   
-  // Function to handle the form submission (keep it simple for the hackathon)
+  // Function to handle the form submission
   const handleSubmitRequest = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real app, this would send data to the backend
     alert('Food Request Submitted! Waiting for a match...');
   };
 

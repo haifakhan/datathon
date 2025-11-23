@@ -1,4 +1,3 @@
-// VendorPanel.tsx - Updated with proper autocomplete
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { FoodBank, DonationPost } from '../types';
