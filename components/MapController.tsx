@@ -15,15 +15,6 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const vendorIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
 const charityIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -142,45 +133,6 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
           </Marker>
         ))}
 
-        {posts.filter(p => p.status === 'available').map(post => (
-          <Marker 
-            key={post.id} 
-            position={[post.latitude, post.longitude]} 
-            icon={vendorIcon}
-          >
-            <Popup>
-              <div className="font-bold text-orange-700">{post.vendorName}</div>
-              <div className="text-sm text-slate-600">{post.vendorAddress}</div>
-              <div className="text-xs mt-1">
-                <span className="font-semibold">{post.quantity}</span> of {post.foodType.split(': ')[1] || post.foodType}
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-
-        {/* Active Donation Posts Markers */}
-        {posts.filter(p => p.status === 'available').map((post) => (
-          <Marker 
-            key={post.id} 
-            position={[post.latitude, post.longitude]}
-            icon={vendorIcon}
-          >
-            <Popup>
-              <div className="p-1 min-w-[150px]">
-                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full mb-2 inline-block">
-                  AVAILABLE
-                </span>
-                <h3 className="font-bold text-slate-900">{post.vendorName}</h3>
-                <p className="text-sm text-slate-700">{post.foodType}</p>
-                <p className="text-xs text-slate-500 mb-2">Qty: {post.quantity}</p>
-                <div className="border-t border-slate-100 pt-2 mt-1">
-                  <p className="text-[10px] text-red-500 font-bold">Expires: {post.expiry}</p>
-                </div>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-
         {/* Heatmap Layers */}
         {insecurityData.map((data, idx) => (
           <CircleMarker
@@ -233,10 +185,6 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
           <div className="flex items-center">
             <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" className="w-3 h-5 mr-2" alt=""/>
             <span className="text-slate-600">Food Bank</span>
-          </div>
-          <div className="flex items-center">
-            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png" className="w-3 h-5 mr-2" alt=""/>
-            <span className="text-slate-600">Donation</span>
           </div>
           <div className="h-px bg-slate-100 my-2"></div>
           <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Insecurity Heatmap</p>
