@@ -165,16 +165,6 @@ const VendorPanel: React.FC<VendorPanelProps> = ({ foodBanks, addPost, userLocat
           </div>
         </div>
 
-        {/* Estimated Value / Tax Credit */}
-        <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between">
-          <span className="text-xs text-slate-500 font-medium flex items-center">
-            <DollarSign className="w-3.5 h-3.5 mr-1" /> Est. Tax Receipt Value
-          </span>
-          <span className="text-slate-900 font-bold">
-            ${(quantity * (unit === 'kg' ? 5 : unit === 'crates' ? 50 : 2)).toFixed(2)}
-          </span>
-        </div>
-
         {/* Matches */}
         <div className="pt-2">
           <div className="flex justify-between items-end mb-3">
