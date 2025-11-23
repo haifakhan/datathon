@@ -37,7 +37,6 @@ const CharityPanel: React.FC<CharityPanelProps> = ({ topInsecurity }) => {
               type="number"
               placeholder="Quantity (units)"
                 min="1"
-                value="1"
               className="w-1/2 p-3 rounded-lg border border-amber-200 focus:ring-amber-500 focus:border-amber-500"
               required
             />
