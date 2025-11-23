@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { FoodBank } from "../types";
 
-const apiKey = process.env.API_KEY; 
+const apiKey = import.meta.env.VITE_API_KEY;
 // Ideally this is handled via server-side proxy in production, but for hackathon we assume client env or direct key usage (if secure env)
 // Note: The prompt prohibits UI for API Key entry, assuming process.env.API_KEY exists.
 
