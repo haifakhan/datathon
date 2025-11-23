@@ -1,3 +1,4 @@
+// Add this to your existing types.ts file, or create it if missing
 export interface FoodBank {
   id: string;
   name: string;
@@ -29,7 +30,7 @@ export interface DonationPost {
   longitude: number;
   timestamp: number;
   status: 'available' | 'claimed';
-  targetCommunity?: string; // The high-need area this helps
+  targetCommunity?: string;
 }
 
 export enum ViewState {
