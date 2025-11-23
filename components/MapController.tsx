@@ -1,3 +1,5 @@
+// MapController.tsx - Updated version
+
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import { FoodBank, InsecurityData, DonationPost } from '../types';
@@ -24,8 +26,8 @@ const charityIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
-const userLocationIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+const restaurantIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
@@ -38,17 +40,24 @@ interface MapControllerProps {
   insecurityData: InsecurityData[];
   posts: DonationPost[];
   userLocation: { lat: number, lng: number } | null;
+  restaurantLocation: { lat: number, lng: number; name: string; address: string } | null; // NEW PROP
 }
 
 const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   const map = useMap();
   useEffect(() => {
-    map.setView([lat, lng], 12); // Zoom in closer to user
+    map.setView([lat, lng], 12);
   }, [lat, lng, map]);
   return null;
 };
 
-const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData, posts, userLocation }) => {
+const MapController: React.FC<MapControllerProps> = ({ 
+  foodBanks, 
+  insecurityData, 
+  posts, 
+  userLocation,
+  restaurantLocation // NEW PROP
+}) => {
   const [mapZoom, setMapZoom] = useState(8);
   const [showFoodBanks, setShowFoodBanks] = useState(true);
 
@@ -63,29 +72,30 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
   };
   
   const getHeatmapStyle = (percent: number) => {
-    // Smoother gradients, no stroke for "heat" effect
-    const color = percent > 30 ? '#b91c1c' : // Deep red
-                  percent > 25 ? '#ef4444' : // Bright red
-                  percent > 20 ? '#f59e0b' : // Amber
-                  '#22c55e';                 // Green
+    const color = percent > 30 ? '#b91c1c' :
+                  percent > 25 ? '#ef4444' :
+                  percent > 20 ? '#f59e0b' :
+                  '#22c55e';
 
-    // Scale radius with zoom; never shrink below baseline
     const scale = Math.min(3.5, Math.max(1, 1 + (mapZoom - 8) * 0.35));
     
     return {
       color: color,
       fillColor: color,
-      fillOpacity: 0.45, // Boost visibility
-      weight: 0, // No border
-      radius: percent * 1.6 * scale // Larger baseline; grows further when zoomed in
+      fillOpacity: 0.45,
+      weight: 0,
+      radius: percent * 1.6 * scale
     };
   };
+
+  // Determine which location to center on
+  const centerLocation = restaurantLocation || userLocation;
 
   return (
     <div className="h-full w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner relative z-0 bg-slate-100">
       <MapContainer 
-        center={[43.7, -79.4] as L.LatLngExpression} 
-        zoom={8} 
+        center={centerLocation ? [centerLocation.lat, centerLocation.lng] : [43.7, -79.4]} 
+        zoom={centerLocation ? 12 : 8} 
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom={true}
       >
@@ -95,19 +105,20 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
 
-        {userLocation && <RecenterMap lat={userLocation.lat} lng={userLocation.lng} />}
-
-        {/* User Location */}
-        {userLocation && (
-          <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
+        {/* Restaurant Location - NEW MARKER */}
+        {restaurantLocation && (
+          <Marker position={[restaurantLocation.lat, restaurantLocation.lng]} icon={restaurantIcon}>
             <Popup>
-              <div className="p-1 text-center">
-                <h3 className="font-bold text-emerald-700">Your Location</h3>
-                <p className="text-xs text-slate-500">You are here</p>
+              <div className="p-1 text-center min-w-[180px]">
+                <h3 className="font-bold text-red-700 mb-1">{restaurantLocation.name}</h3>
+                <p className="text-xs text-slate-600">{restaurantLocation.address}</p>
+                <p className="text-xs text-slate-500 mt-1">📍 Restaurant Location</p>
               </div>
             </Popup>
           </Marker>
         )}
+
+        {/* REMOVED: User Location Marker */}
 
         {/* Food Banks Markers */}
         {showFoodBanks && foodBanks.map((bank) => (
@@ -174,13 +185,13 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
         </label>
       </div>
 
-      {/* Modern Map Legend */}
+      {/* Updated Map Legend */}
       <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xl z-[1000] text-xs min-w-[160px]">
         <h4 className="font-bold mb-3 text-slate-800">Legend</h4>
         <div className="space-y-2.5">
           <div className="flex items-center">
-            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png" className="w-3 h-5 mr-2" alt=""/>
-            <span className="text-slate-600">You</span>
+            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png" className="w-3 h-5 mr-2" alt=""/>
+            <span className="text-slate-600">Restaurant</span>
           </div>
           <div className="flex items-center">
             <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" className="w-3 h-5 mr-2" alt=""/>

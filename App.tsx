@@ -43,6 +43,12 @@ const App: React.FC = () => {
     () => [...posts].sort((a, b) => b.timestamp - a.timestamp),
     [posts]
   );
+const [restaurantLocation, setRestaurantLocation] = useState<{ 
+  lat: number; 
+  lng: number; 
+  name: string; 
+  address: string 
+} | null>(null);
 
   const topInsecurity = useMemo(
     () => [...INSECURITY_STATS].sort((a, b) => b.percent - a.percent).slice(0, 3),
@@ -139,6 +145,7 @@ const App: React.FC = () => {
                 insecurityData={INSECURITY_STATS}
                 posts={sortedPosts}
                 userLocation={userLocation}
+                restaurantLocation={restaurantLocation} // ADD THIS
               />
             </div>
 
@@ -149,7 +156,7 @@ const App: React.FC = () => {
           {/* SIDE PANEL: VendorPost Form OR Charity Request/Analytics */}
           <div className="space-y-4">
             {userType === UserType.VENDOR ? (
-              <VendorPanel foodBanks={FOOD_BANKS} addPost={addPost} userLocation={userLocation} />
+              <VendorPanel foodBanks={FOOD_BANKS} addPost={addPost} userLocation={userLocation} onRestaurantLocationChange={setRestaurantLocation} />
             ) : (
               <CharityPanel topInsecurity={topInsecurity} /> // <--- USING NEW COMPONENT
             )}
