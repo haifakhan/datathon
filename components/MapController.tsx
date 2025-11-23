@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import { FoodBank, InsecurityData, DonationPost } from '../types';
 import L from 'leaflet';
 
@@ -58,20 +58,35 @@ const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
 };
 
 const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData, posts, userLocation }) => {
+  const [mapZoom, setMapZoom] = useState(8);
+  const [showFoodBanks, setShowFoodBanks] = useState(true);
+
+  const ZoomWatcher: React.FC = () => {
+    const map = useMapEvents({
+      zoomend: () => setMapZoom(map.getZoom())
+    });
+    useEffect(() => {
+      setMapZoom(map.getZoom());
+    }, [map]);
+    return null;
+  };
   
   const getHeatmapStyle = (percent: number) => {
     // Smoother gradients, no stroke for "heat" effect
-    const color = percent > 30 ? '#ef4444' : // Red
-                  percent > 25 ? '#f97316' : // Orange
-                  percent > 20 ? '#eab308' : // Yellow
+    const color = percent > 30 ? '#b91c1c' : // Deep red
+                  percent > 25 ? '#ef4444' : // Bright red
+                  percent > 20 ? '#f59e0b' : // Amber
                   '#22c55e';                 // Green
+
+    // Scale radius with zoom; never shrink below baseline
+    const scale = Math.min(3.5, Math.max(1, 1 + (mapZoom - 8) * 0.35));
     
     return {
       color: color,
       fillColor: color,
-      fillOpacity: 0.3, // Lower opacity for blending
+      fillOpacity: 0.45, // Boost visibility
       weight: 0, // No border
-      radius: percent * 1.8 // Slightly larger
+      radius: percent * 1.6 * scale // Larger baseline; grows further when zoomed in
     };
   };
 
@@ -79,10 +94,11 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
     <div className="h-full w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner relative z-0 bg-slate-100">
       <MapContainer 
         center={[43.7, -79.4] as L.LatLngExpression} 
-        zoom={10} 
+        zoom={8} 
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom={true}
       >
+        <ZoomWatcher />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -103,7 +119,7 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
         )}
 
         {/* Food Banks Markers */}
-        {foodBanks.map((bank) => (
+        {showFoodBanks && foodBanks.map((bank) => (
           <Marker 
             key={bank.id} 
             position={[bank.latitude, bank.longitude]}
@@ -193,6 +209,19 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
 
       </MapContainer>
       
+      {/* Controls */}
+      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm shadow-md border border-slate-200 rounded-xl px-3 py-2 flex items-center space-x-2 z-[1000] text-xs">
+        <label className="flex items-center space-x-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={showFoodBanks}
+            onChange={() => setShowFoodBanks((prev) => !prev)}
+            className="accent-emerald-500"
+          />
+          <span className="text-slate-700 font-semibold">Show Food Banks</span>
+        </label>
+      </div>
+
       {/* Modern Map Legend */}
       <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xl z-[1000] text-xs min-w-[160px]">
         <h4 className="font-bold mb-3 text-slate-800">Legend</h4>

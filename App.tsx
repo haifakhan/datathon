@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { SAMPLE_FOOD_BANKS, INSECURITY_STATS, SAMPLE_POSTS } from './constants';
+import { FOOD_BANKS, INSECURITY_STATS, SAMPLE_POSTS } from './constants';
 import { DonationPost, UserType } from './types';
 import MapController from './components/MapController';
 import Feed from './components/Feed';
@@ -132,15 +132,15 @@ const App: React.FC = () => {
         {/* MAIN LAYOUT: Map/Feed + Side Panel */}
         <section className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            {/* MAP CONTROLLER */}
-            <div className="h-[480px]">
-              <MapController
-                foodBanks={SAMPLE_FOOD_BANKS}
-                insecurityData={INSECURITY_STATS}
-                posts={sortedPosts}
-                userLocation={userLocation}
-              />
-            </div>
+            {/* MAP CONTROLLER */}
+            <div className="h-[620px]">
+              <MapController
+                foodBanks={FOOD_BANKS}
+                insecurityData={INSECURITY_STATS}
+                posts={sortedPosts}
+                userLocation={userLocation}
+              />
+            </div>
 
             {/* FEED/LISTINGS */}
             <Feed posts={sortedPosts} onClaim={claimPost} userType={userType} />
@@ -148,9 +148,9 @@ const App: React.FC = () => {
 
           {/* SIDE PANEL: VendorPost Form OR Charity Request/Analytics */}
           <div className="space-y-4">
-            {userType === UserType.VENDOR ? (
-              <VendorPanel foodBanks={SAMPLE_FOOD_BANKS} addPost={addPost} userLocation={userLocation} />
-            ) : (
+            {userType === UserType.VENDOR ? (
+              <VendorPanel foodBanks={FOOD_BANKS} addPost={addPost} userLocation={userLocation} />
+            ) : (
               <CharityPanel topInsecurity={topInsecurity} /> // <--- USING NEW COMPONENT
             )}
           </div>
