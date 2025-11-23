@@ -1,0 +1,7 @@
+{
+  "name": "ZeroHunger Connect",
+  "description": "A data-driven food redistribution platform connecting surplus food from vendors to food-insecure communities using real-time mapping and AI.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
