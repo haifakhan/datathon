@@ -11,6 +11,8 @@ interface VendorPanelProps {
 }
 
 const VendorPanel: React.FC<VendorPanelProps> = ({ foodBanks, addPost, userLocation }) => {
+  const [restaurantName, setRestaurantName] = useState('Maple Leaf Kitchen');
+  const [restaurantAddress, setRestaurantAddress] = useState('123 Main St, Toronto');
   const [category, setCategory] = useState('Raw Ingredients');
   const [foodDetails, setFoodDetails] = useState('');
   const [quantity, setQuantity] = useState<number>(1);
@@ -51,6 +53,8 @@ const VendorPanel: React.FC<VendorPanelProps> = ({ foodBanks, addPost, userLocat
     const newPost: DonationPost = {
       id: Math.random().toString(36).substr(2, 9),
       vendorName: "Current User Vendor",
+      vendorName: restaurantName,
+      vendorAddress: restaurantAddress,
       foodType: `${category}: ${foodDetails}`,
       quantity: `${quantity} ${unit}`,
       expiry: `${expiryHours} hours`,
@@ -82,7 +86,33 @@ const VendorPanel: React.FC<VendorPanelProps> = ({ foodBanks, addPost, userLocat
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5 flex-1">
-        
+        <div>
+          <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Restaurant Name</label>
+          <input 
+            type="text" 
+            className="w-full p-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all"
+            placeholder="e.g., The Italian Kitchen"
+            value={restaurantName}
+            onChange={(e) => setRestaurantName(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* --- NEW: Address Input --- */}
+        <div>
+          <label className="block text-xs font-bold text-slate-500 uppercase mb-2 flex items-center">
+            <MapPin className="w-3.5 h-3.5 mr-1" /> Pickup Address
+          </label>
+          <input 
+            type="text" 
+            className="w-full p-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all"
+            placeholder="e.g., 123 Front St West, Toronto"
+            value={restaurantAddress}
+            onChange={(e) => setRestaurantAddress(e.target.value)}
+            required
+          />
+        </div>
+
         {/* Category Selection */}
         <div>
           <label className="block text-xs font-bold text-slate-500 uppercase mb-2 flex items-center">

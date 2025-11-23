@@ -126,6 +126,22 @@ const MapController: React.FC<MapControllerProps> = ({ foodBanks, insecurityData
           </Marker>
         ))}
 
+        {posts.filter(p => p.status === 'available').map(post => (
+          <Marker 
+            key={post.id} 
+            position={[post.latitude, post.longitude]} 
+            icon={vendorIcon}
+          >
+            <Popup>
+              <div className="font-bold text-orange-700">{post.vendorName}</div>
+              <div className="text-sm text-slate-600">{post.vendorAddress}</div>
+              <div className="text-xs mt-1">
+                <span className="font-semibold">{post.quantity}</span> of {post.foodType.split(': ')[1] || post.foodType}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
         {/* Active Donation Posts Markers */}
         {posts.filter(p => p.status === 'available').map((post) => (
           <Marker 
