@@ -90,7 +90,7 @@ const App: React.FC = () => {
                 {userType === UserType.VENDOR ? 'Vendor Dashboard' : 'Charity Dashboard'}
               </p>
               <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">
-                Real-time surplus redistribution
+                Top Areas for Food Support
               </h1>
             </div>
           </div>
