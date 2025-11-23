@@ -23,7 +23,7 @@ const HomePage: React.FC<HomePageProps> = ({ setUserType, insecurityStats }) => 
       {/* Hero Section */}
       <header className="text-center mb-16 max-w-4xl">
         <h1 className="text-6xl font-extrabold tracking-tight text-slate-800">
-          ZERO HUNGER <span className="text-emerald-500">CONNECT</span>
+          <span className="text-emerald-500">ZERO</span> HUNGER
         </h1>
         <p className="text-xl mt-4 text-slate-600 font-medium">
           Connecting surplus food to communities that need it — in real time, with data-driven routing.
@@ -85,7 +85,7 @@ const HomePage: React.FC<HomePageProps> = ({ setUserType, insecurityStats }) => 
 
       {/* Simple Footer */}
       <footer className="w-full max-w-5xl mt-16 pt-8 border-t border-slate-100 text-center text-sm text-slate-400">
-        <p>Zero Hunger Connect · Data Sources: Food Banks Canada, Statistics Canada · Built for [Hackathon Name]</p>
+        <p>Zero Hunger · Data Sources: Food Banks Canada, Statistics Canada</p>
       </footer>
     </div>
   );
