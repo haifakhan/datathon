@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, RectangleEllipsis, User } from 'lucide-react';
 import { getChatResponse } from '../services/geminiService';
 
 interface Message {
@@ -51,7 +51,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({ embedded = false }) => {
       {!embedded && (
         <div className="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
           <div className="bg-emerald-100 p-2 rounded-lg">
-            <Bot className="w-6 h-6 text-emerald-600" />
+            <RectangleEllipsis className="w-6 h-6 text-emerald-600" />
           </div>
           <div>
             <h2 className="text-xl font-bold text-slate-900">AI Assistant</h2>
@@ -65,7 +65,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({ embedded = false }) => {
           <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`flex items-start space-x-2 max-w-[80%] ${msg.sender === 'user' ? 'flex-row-reverse space-x-reverse' : 'flex-row'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === 'user' ? 'bg-slate-200' : 'bg-emerald-100'}`}>
-                {msg.sender === 'user' ? <User className="w-4 h-4 text-slate-600" /> : <Bot className="w-4 h-4 text-emerald-600" />}
+                {msg.sender === 'user' ? <User className="w-4 h-4 text-slate-600" /> : <RectangleEllipsis className="w-4 h-4 text-emerald-600" />}
               </div>
               <div className={`p-3 rounded-2xl text-sm ${msg.sender === 'user' ? 'bg-slate-800 text-white rounded-tr-none' : 'bg-slate-100 text-slate-800 rounded-tl-none'}`}>
                 {msg.text}

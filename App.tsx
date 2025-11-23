@@ -10,7 +10,7 @@ import VendorPanel from './components/VendorPanel';
 import AiAssistant from './components/AiAssistant';
 import HomePage from './components/HomePage'; // <--- NEW IMPORT
 import CharityPanel from './components/CharityPanel'; // <--- NEW IMPORT
-import { Bot, Map as MapIcon, Radio, Users, X, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
+import { RectangleEllipsis, Map as MapIcon, Radio, Users, X, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
 
 const App: React.FC = () => {
   // Use null to indicate the initial selection page
@@ -122,7 +122,7 @@ const App: React.FC = () => {
           </div>
           <div className="glass-panel rounded-2xl border border-slate-200 p-4 shadow-sm">
             <div className="flex items-center justify-between text-xs font-semibold text-slate-500 uppercase">
-              AI Co-Pilot <Bot className="w-4 h-4" />
+              AI Co-Pilot <RectangleEllipsis className="w-4 h-4" />
             </div>
             <p className="text-3xl font-black text-slate-900 mt-2">Online</p>
             <p className="text-sm text-slate-500">Ask routing or packaging tips</p>
@@ -190,7 +190,7 @@ const App: React.FC = () => {
                 <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
                   <div className="flex items-center space-x-2">
                     <span className="p-2 rounded-lg bg-emerald-100 text-emerald-700">
-                      <Bot className="w-5 h-5" />
+                      <RectangleEllipsis className="w-5 h-5" />
                     </span>
                     <div>
                       <p className="text-sm font-bold text-slate-900">AI Assistant</p>
@@ -219,7 +219,7 @@ const App: React.FC = () => {
             className="absolute bottom-0 right-0 w-14 h-14 rounded-full bg-emerald-500 text-white shadow-xl shadow-emerald-200 flex items-center justify-center hover:bg-emerald-600 transition-colors border border-emerald-100"
             aria-label={chatOpen ? 'Hide AI assistant' : 'Open AI assistant'}
           >
-            <Bot className="w-6 h-6" />
+            <RectangleEllipsis className="w-6 h-6" />
           </button>
         </div>
       </div>,
